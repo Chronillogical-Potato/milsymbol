@@ -1,4 +1,13 @@
+import fs from "fs";
+import path from "path";
+
 import copy from "rollup-plugin-copy";
+import replace from "@rollup/plugin-replace";
+
+const packageJSON = JSON.parse(
+  fs.readFileSync(path.join("package.json"), "utf-8")
+);
+const version = packageJSON.version;
 
 export default [
   {
@@ -55,6 +64,10 @@ export default [
           }
         ],
         verbose: true
+      }),
+      replace({
+        __version__: JSON.stringify(version),
+        preventAssignment: true
       })
     ]
   }
